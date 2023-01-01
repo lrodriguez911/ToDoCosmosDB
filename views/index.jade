@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  h1= title
+  br
+
+  form(action="complete", method="post")
+    table.table.table.stripped.table.bordered 
+      tr 
+        td Name 
+        td Category
+        td Date 
+        td Complete 
+      if( typeof tasks === "undefined")
+        tr 
+          td
+      else
+        each task in tasks
+          tr 
+            td #{task.name}
+            td #{task.category}
+            - let date = new Date(task.date);
+            - let day = date.getDate();
+            - let month = date.getMonth() + 1;
+            - let year = date.getFullYear();
+            td #{day + "/" + month + "/" + year}
+            td 
+              if (task.completed)
+                input(type="checkbox", name="#{task.id}", value="#{task.completed}", checked=task.completed)
+              else
+                input(type="checkbox", name="#{task.id}", value="#{task.completed}", checked=task.completed)
+      button.btn.btn-primary(type="submit") Update Tasks 
+    hr
+    form.well(action="/add", method="post")
+      label Item Name: 
+      input(type="text", name="name")
+      label Item Category: 
+      input(type="text", name="category")
+      br
+      button.btn(type="submit") Add Task
